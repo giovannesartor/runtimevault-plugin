@@ -1,11 +1,16 @@
 {
   "name": "runtimevault-snapshot-inspector",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Inspect, analyze, and replay production snapshots from RuntimeVault. List errors, view runtime state, get AI-powered root cause analysis, and generate replay commands.",
   "license": "MIT",
   "author": {
     "name": "RuntimeVault",
     "url": "https://runtimevault.dev"
+  },
+  "homepage": "https://runtimevault.dev/docs/plugins/verboo",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/giovannesartor/runtimevault-plugin.git"
   },
   "keywords": [
     "runtimevault",
@@ -13,6 +18,7 @@
     "snapshot",
     "error-tracking",
     "replay",
-    "mcp"
+    "mcp",
+    "verboo-code"
   ]
 }
