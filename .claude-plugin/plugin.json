@@ -7,7 +7,7 @@
     "name": "RuntimeVault",
     "url": "https://runtimevault.dev"
   },
-  "homepage": "https://runtimevault.dev/docs/plugins/verboo",
+  "homepage": "https://github.com/giovannesartor/runtimevault-plugin",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/giovannesartor/runtimevault-plugin.git"

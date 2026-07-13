@@ -171,12 +171,9 @@ The plugin communicates with the [RuntimeVault API](https://api.runtimevault.dev
 ```bash
 git clone https://github.com/giovannesartor/runtimevault-plugin.git
 cd runtimevault-plugin
-pnpm install
-pnpm dev       # watch mode
-pnpm build     # production build
 ```
 
-Each command is a standalone TypeScript file in `src/commands/`. They share the API client at `src/lib/client.ts`. The build compiles each command independently to `commands/` using tsup.
+Each command is a standalone TypeScript file in `commands/`. They share the API client at `commands/lib/client.ts`. No build step — the Verboo Code runtime handles TypeScript natively.
 
 ## License
 

@@ -9,7 +9,7 @@ import { RuntimeVaultClient, RuntimeVaultError } from './lib/client';
  * @example rv-analyze snap_9f2a1c
  */
 export async function main(args: { snapshot_id: string }) {
-  if (!args.snapshot_id) {
+  if (!args.snapshot_id?.trim()) {
     console.error('\n  Usage: rv-analyze <snapshot_id>');
     return;
   }

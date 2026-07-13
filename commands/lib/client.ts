@@ -22,9 +22,13 @@ export interface SnapshotDetail extends SnapshotListItem {
 }
 
 export class RuntimeVaultError extends Error {
-  constructor(message: string, public status?: number) {
+  declare public status?: number;
+
+  constructor(message: string, status?: number) {
     super(message);
     this.name = 'RuntimeVaultError';
+    this.status = status;
+    Object.setPrototypeOf(this, RuntimeVaultError.prototype);
   }
 }
 
@@ -51,11 +55,15 @@ export class RuntimeVaultClient {
       },
     });
     if (!res.ok) {
-      const body = await res.json().catch(() => ({}));
-      throw new RuntimeVaultError(
-        (body as Record<string, unknown>).detail as string ?? `API error: ${res.status}`,
-        res.status,
-      );
+      let detail = `API error: ${res.status}`;
+      try {
+        const body = await res.json() as Record<string, unknown>;
+        if (typeof body.detail === 'string') detail = body.detail;
+        else if (typeof body.message === 'string') detail = body.message;
+      } catch {
+        detail = `API error: ${res.status} ${res.statusText}`;
+      }
+      throw new RuntimeVaultError(detail, res.status);
     }
     return res.json() as Promise<T>;
   }
