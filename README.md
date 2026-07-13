@@ -4,57 +4,66 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![RuntimeVault](https://img.shields.io/badge/powered%20by-RuntimeVault-purple.svg)](https://runtimevault.dev)
 
-Inspect, analyze, and replay production error snapshots directly from your AI coding agent.
+Inspect, analyze, and replay production error snapshots directly from Verboo Code.
 
-## Overview
+## Requirements (read before installing)
 
-RuntimeVault captures the complete runtime state the instant an error fires — stack trace, variables, network requests, DOM, storage, and environment metadata. This plugin lets Verboo Code, Claude Code, or any MCP-compatible agent read that evidence, diagnose the root cause, and generate replay commands.
+**Yes, you need a RuntimeVault account.** This plugin reads snapshots captured by RuntimeVault — there is nothing to inspect if your app doesn't have the SDK installed and sending data.
 
-**No more "I can't reproduce this bug."** The full state is frozen and available to your AI.
+| Requirement | Why | Cost |
+|---|---|---|
+| **RuntimeVault account** | The plugin reads from the RuntimeVault API | Free plan available at [runtimevault.dev](https://runtimevault.dev) |
+| **SDK in your project** | Only apps with `@runtimevault/core` capture snapshots | Free, open source |
+| **API key** | Authenticates the plugin to your account | Generate 1-click in [dashboard](https://runtimevault.dev/dashboard/api-keys) |
+| **Snapshots being captured** | Nothing to inspect if no errors have been captured yet | Happens automatically after SDK init |
 
-## Prerequisites
+### What this plugin does NOT do
 
-- A **free RuntimeVault account** at [runtimevault.dev](https://runtimevault.dev)
-- A project with the **RuntimeVault SDK installed** and capturing snapshots
-- An **API key** from your [dashboard settings](https://runtimevault.dev/dashboard/settings)
+- ❌ Does **not** capture snapshots — the SDK does that at runtime in your app
+- ❌ Does **not** modify or delete any data — read-only
+- ❌ Does **not** work without a RuntimeVault account
+- ❌ Does **not** replace the RuntimeVault dashboard — it's a complementary interface for your AI agent
 
 ### SDK setup (5 minutes)
 
-```bash
+```
 npm install @runtimevault/core
 ```
 
 ```ts
 import { RuntimeVault } from '@runtimevault/core';
-
 RuntimeVault.init({
   apiKey: 'rv_live_xxx',
   environment: 'production',
 });
 ```
 
-Once installed, RuntimeVault automatically captures snapshots on unhandled errors and unhandled promise rejections.
+Once installed, RuntimeVault automatically captures snapshots on unhandled errors and promise rejections.
 
 ## Setup
 
-### 1. Get your API key
+### 1. Create a free account
 
-Generate a key at [runtimevault.dev/dashboard/api-keys](https://runtimevault.dev/dashboard/api-keys).
+Sign up at [runtimevault.dev](https://runtimevault.dev) — no credit card required.
 
-### 2. Set the environment variable
+### 2. Generate an API key
+
+Go to [runtimevault.dev/dashboard/api-keys](https://runtimevault.dev/dashboard/api-keys) and click **Create key**.
+
+### 3. Set the environment variable
 
 ```bash
 export RV_API_KEY=rv_live_xxx
 ```
 
-Or authenticate via the CLI:
+Or use the CLI instead of an env var:
 
 ```bash
 npm install -g @runtimevault/cli
 rv login
 ```
 
-### 3. Install the plugin in Verboo Code
+### 4. Install the plugin in Verboo Code
 
 ```bash
 verboo plugin install runtimevault-snapshot-inspector@verboo-plugins
