@@ -1,4 +1,4 @@
-import { RuntimeVaultClient, RuntimeVaultError } from '../lib/client';
+import { RuntimeVaultClient, RuntimeVaultError } from './lib/client';
 
 /**
  * List recent RuntimeVault snapshots from your project.

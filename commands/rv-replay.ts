@@ -1,10 +1,7 @@
-import { RuntimeVaultClient, RuntimeVaultError } from '../lib/client';
+import { RuntimeVaultClient, RuntimeVaultError } from './lib/client';
 
 /**
  * Generate a local replay command for a RuntimeVault snapshot.
- *
- * Outputs the `rv replay` command so you can reproduce the exact
- * failure environment locally on your machine.
  *
  * @example rv-replay snap_9f2a1c
  */

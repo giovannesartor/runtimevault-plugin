@@ -1,10 +1,7 @@
-import { RuntimeVaultClient, RuntimeVaultError } from '../lib/client';
+import { RuntimeVaultClient, RuntimeVaultError } from './lib/client';
 
 /**
  * Inspect a specific RuntimeVault snapshot by ID.
- *
- * Shows error details, URL, environment, timestamp, and whether
- * the full runtime payload is available for deeper analysis.
  *
  * @example rv-inspect snap_9f2a1c
  */

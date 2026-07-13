@@ -1,11 +1,10 @@
-import { RuntimeVaultClient, RuntimeVaultError } from '../lib/client';
+import { RuntimeVaultClient, RuntimeVaultError } from './lib/client';
 
 /**
  * Run AI-powered root cause analysis on a RuntimeVault snapshot.
  *
- * The analysis reads the actual runtime evidence (variables, network,
- * storage, timeline) captured at the moment of failure — it does not
- * guess from a stack trace alone.
+ * The analysis reads the actual runtime evidence captured at the
+ * moment of failure — variables, network, storage, and timeline.
  *
  * @example rv-analyze snap_9f2a1c
  */
@@ -22,8 +21,6 @@ export async function main(args: { snapshot_id: string }) {
 
     const result = await client.analyzeSnapshot(args.snapshot_id);
 
-    // The API returns a free-text analysis. Print it directly
-    // so the AI agent can parse and reason over it.
     console.log(result);
     console.log();
   } catch (err) {
