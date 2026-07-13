@@ -40,6 +40,28 @@ RuntimeVault.init({
 
 Once installed, RuntimeVault automatically captures snapshots on unhandled errors and promise rejections.
 
+## Plans & limits
+
+RuntimeVault has a **free tier** and **paid plans**. What you can do with this plugin depends on your plan.
+
+| Feature | Free | Pro | Enterprise |
+|---|---|---|---|
+| Snapshot capture | ✅ Unlimited | ✅ Unlimited | ✅ Unlimited |
+| Snapshot retention | 7 days | 90 days | Custom |
+| Full payload access | ❌ Metadata only | ✅ Full state | ✅ Full state |
+| AI root cause analysis | ❌ | ✅ Included | ✅ Included |
+| CLI replay (`rv replay`) | ✅ Included | ✅ Included | ✅ Included |
+| Team members | 1 | Up to 10 | Unlimited |
+| Price | $0 | [See pricing](https://runtimevault.dev/#pricing) | Custom |
+
+**For this plugin specifically:**
+
+- **`rv-list`** and **`rv-inspect`** work on all plans — you can always see snapshots and their metadata
+- **`rv-analyze`** requires a **Pro plan or above** — AI analysis reads the full payload, which is only stored on paid plans
+- **`rv-replay`** works on all plans — the replay command is generated from metadata
+
+> 💡 On the Free plan, the plugin will show that snapshots exist, but `rv-analyze` will return a payment-required error. Upgrade at [runtimevault.dev/dashboard/billing](https://runtimevault.dev/dashboard/billing).
+
 ## Setup
 
 ### 1. Create a free account
@@ -167,13 +189,38 @@ The plugin communicates with the [RuntimeVault API](https://api.runtimevault.dev
 
 ## Troubleshooting
 
-| Problem | Solution |
-|---|---|
-| `Authentication required` | Set `RV_API_KEY` or run `rv login` |
-| `Snapshot not found` | Verify the snapshot ID. Snapshots expire after 90 days. |
-| `AI analysis requires an active plan` | Upgrade at [runtimevault.dev/dashboard/billing](https://runtimevault.dev/dashboard/billing) |
-| `API error: 429` | Rate limit exceeded. Wait a few seconds and retry. |
-| No snapshots appearing | Ensure the SDK is initialized before errors occur and that `environment` matches your deployment. |
+| Problem | Likely cause | Solution |
+|---|---|---|---|
+| `Authentication required` | `RV_API_KEY` not set | Set the env var or run `rv login` |
+| `Snapshot not found` | Wrong ID or expired | Snapshots expire after 7 days (free) or 90 days (pro). Verify the ID. |
+| `AI analysis requires an active plan` | Free plan doesn't include AI | Upgrade at [runtimevault.dev/dashboard/billing](https://runtimevault.dev/dashboard/billing) |
+| `API error: 402` | Payment required for this feature | Check your plan at [runtimevault.dev/dashboard/billing](https://runtimevault.dev/dashboard/billing) |
+| `API error: 429` | Rate limit hit | Wait a few seconds and retry |
+| `Unexpected error` | Network issue or API outage | Check [status.runtimevault.dev](https://status.runtimevault.dev) |
+| No snapshots appearing | SDK not initialized or no errors | Ensure `RuntimeVault.init()` runs before your app code and that you've triggered an error |
+| Snapshots visible but `rv-analyze` fails | Free plan — payload not stored | Only snapshot metadata is available on the free tier |
+
+## About RuntimeVault
+
+RuntimeVault is a **runtime state replay platform** for developers. When an error occurs in production, RuntimeVault doesn't just record the stack trace — it freezes the entire application state at that exact moment:
+
+- **Stack trace** with source-mapped frames
+- **Variables in scope** at throw-time
+- **Network requests** — the request/response pairs leading to the error
+- **DOM state** — the UI and console state when it failed
+- **Storage** — cookies, localStorage, sessionStorage
+- **Environment** — browser, OS, URL, feature flags, user context
+
+A developer can then run `rv replay <snapshot_id>` and have the failure reproduced identically on their local machine — no more guessing, no more "works on my machine."
+
+This plugin brings that same evidence directly into Verboo Code so your AI agent can investigate without leaving the terminal.
+
+### Learn more
+
+- [runtimevault.dev](https://runtimevault.dev) — product website
+- [Dashboard](https://runtimevault.dev/dashboard) — manage snapshots, team, billing
+- [Documentation](https://runtimevault.dev/docs) — SDK setup, CLI reference, MCP integration
+- [GitHub](https://github.com/giovannesartor/RuntimeVault) — open source SDK and CLI
 
 ## Development
 
@@ -182,12 +229,8 @@ git clone https://github.com/giovannesartor/runtimevault-plugin.git
 cd runtimevault-plugin
 ```
 
-Each command is a standalone TypeScript file in `commands/`. They share the API client at `commands/lib/client.ts`. No build step — the Verboo Code runtime handles TypeScript natively.
+Each command is a standalone TypeScript file in `commands/`. They share the API client at `commands/lib/client.ts`. No build step — Verboo Code handles TypeScript natively.
 
 ## License
 
 MIT — see [LICENSE](LICENSE).
-
----
-
-[RuntimeVault](https://runtimevault.dev) · [Dashboard](https://runtimevault.dev/dashboard) · [Docs](https://runtimevault.dev/docs)
